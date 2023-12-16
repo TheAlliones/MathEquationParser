@@ -14,7 +14,6 @@
 
         public void PreOrderTraversal()
         {
-            Console.WriteLine("Equation: " + equation);
             root.PreOrderTraversal(0,"");
         }
 

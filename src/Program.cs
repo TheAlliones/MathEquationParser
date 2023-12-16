@@ -6,11 +6,17 @@
     {
         public static void Main(string[] args)
         {
-            string equation = "1*2+3*4+5/6";
-            SyntaxTree tree = new SyntaxTree(equation);
-            tree.PreOrderTraversal();
-            Console.WriteLine("Result: " + tree.CalculateTree());
-            while (true);
+            while (true)
+            {
+                Console.WriteLine("Equation: ");
+                string input = Console.ReadLine();
+                if(input != null && input != "")
+                {
+                    SyntaxTree tree = new SyntaxTree(input);
+                    tree.PreOrderTraversal();
+                    Console.WriteLine("Result: " + tree.CalculateTree());
+                }
+            } 
         }
     }
 }
