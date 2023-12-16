@@ -20,22 +20,36 @@ namespace EquationParser
             operations.Add(ops);
         }
 
-        public void ParseEquation(string equation)
+        public string[] ParseEquation(string equation, out bool hasOperation)
         {
-            string[] parts = SplitAtHighestOperation(equation);
-            foreach (string part in parts)
+            if (HasOperation(equation))
             {
-                Console.WriteLine(part);
+                hasOperation = true;
+                return null;
             }
+            hasOperation = false;
+            return SplitAtLastOperation(equation);
         }
-        private string[] SplitAtHighestOperation(string equation)
+
+        private bool HasOperation(string equation)
+        {
+            foreach (string[] ops in operations){
+                foreach(string op in ops)
+                {
+                    if(equation.Contains(op)) return false;
+                }
+            }
+            return true;
+        }
+
+        private string[] SplitAtLastOperation(string equation)
         {
             equation = RemoveOuterBrackets(equation);
             int splitIndex = -1;
             int tokenLength = -1;
             if(operations.Count < 1) Console.WriteLine("Error: No Operations Given!");
             foreach (string[] ops in operations) { 
-                if(GetIndexOfFirstHighestOccurenc(equation, ops, out splitIndex, out tokenLength))
+                if(GetIndexOfFirstOccurenc(equation, ops, out splitIndex, out tokenLength))
                 {
                     break;
                 }
@@ -47,7 +61,6 @@ namespace EquationParser
             return GetPartsSplittedAt(equation, splitIndex, tokenLength);
         }
 
-
         private string[] GetPartsSplittedAt(string equation, int splitIndex, int tokenLength)
         {
             List<string> result = new List<string>();
@@ -55,23 +68,27 @@ namespace EquationParser
             {
                 result.Add(equation.Substring(0,splitIndex));
             }
+            else
+            {
+                result.Add("");
+            }
             result.Add(equation.Substring(splitIndex, tokenLength));
             result.Add(equation.Substring(splitIndex+tokenLength));
             return result.ToArray();
         }
 
-        private bool GetIndexOfFirstHighestOccurenc(string equation, string[] tokens, out int index, out int tokenLength)
+        private bool GetIndexOfFirstOccurenc(string equation, string[] tokens, out int index, out int tokenLength)
         {
             char[] equationChars = equation.ToCharArray();
             int bracket = 0;
-            for (int i = 0; i < equation.Length; i++)
+            for (int i = equation.Length-1; i > 0; i--)
             {
                 char c = equationChars[i];
-                if (c == '(')
+                if (c == ')')
                 {
                     bracket++;
                 }
-                if (c == ')')
+                if (c == '(')
                 {
                     bracket--;
                 }

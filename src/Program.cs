@@ -6,11 +6,10 @@
     {
         public static void Main(string[] args)
         {
-            string equation = "((5+4)×2)-6×8×(4-9)";
-            EquationParser parser = new EquationParser();
-            parser.AddOperations(new string[] { "×", "/" });
-            parser.AddOperations(new string[] { "+", "-" });
-            parser.ParseEquation(equation);
+            string equation = "1*2+3*4+5/6";
+            SyntaxTree tree = new SyntaxTree(equation);
+            tree.PreOrderTraversal();
+            Console.WriteLine("Result: " + tree.CalculateTree());
             while (true);
         }
     }
