@@ -29,18 +29,18 @@ namespace EquationParser
             operations.Add(ops);
         }
 
-        public string[] ParseEquation(string equation, out bool hasOperation)
+        public string[] ParseEquation(string equation, out bool hasNoOperation)
         {
-            if (HasOperation(equation))
+            if (HasNoOperation(equation))
             {
-                hasOperation = true;
+                hasNoOperation = true;
                 return null;
             }
-            hasOperation = false;
+            hasNoOperation = false;
             return SplitAtLastOperation(equation);
         }
 
-        private bool HasOperation(string equation)
+        private bool HasNoOperation(string equation)
         {
             foreach (string[] ops in operations){
                 foreach(string op in ops)
@@ -108,7 +108,7 @@ namespace EquationParser
                 }
                 if (bracket == 0)
                 {
-                    foreach (String token in tokens)
+                    foreach (string token in tokens)
                     {
                         if (MatchCharArrayWithToken(equationChars, i, token))
                         {
@@ -143,6 +143,7 @@ namespace EquationParser
 
         private bool HasOuterBrackets(string equation)
         {
+            if (equation.Length < 1) return false;
             char[] equationChars = equation.ToCharArray();
             if (equationChars[0] == '(' && equationChars[equationChars.Length - 1] == ')')
             {
@@ -167,7 +168,7 @@ namespace EquationParser
             }
             return false;
         }
-        private string RemoveOuterBrackets(string equation)
+        public string RemoveOuterBrackets(string equation)
         {
 
             while (HasOuterBrackets(equation))

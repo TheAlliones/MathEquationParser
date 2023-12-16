@@ -12,10 +12,10 @@
 
         public override TreeElement AddEquation(string equation)
         {
-            string[] equationParts = parser.ParseEquation(equation, out bool hasOperation);
-            if (hasOperation)
+            string[] equationParts = parser.ParseEquation(equation, out bool hasNoOperation);
+            if (hasNoOperation)
             {
-                term = equation;
+                term = parser.RemoveOuterBrackets(equation);
                 return this;
             }
             else if(equationParts != null)

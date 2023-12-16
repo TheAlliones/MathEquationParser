@@ -6,6 +6,7 @@ namespace Main
     {
         public static void Main(string[] args) {
             Console.WriteLine("Loading and Compiling Tokens!");
+            Console.WriteLine();
             TokenManager.LoadTokensFromFile("tokens.json");
             TokenManager.CompileTokenMethods();
             TokenManager.Log();
