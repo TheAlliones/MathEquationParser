@@ -3,12 +3,16 @@
     public class SyntaxTree
     {
         public string equation {  get; }
+        private EquationParser parser;
+
 
         private TreeElement root;
         public SyntaxTree(string equ) 
         {
             equation = equ;
-            root = new Term();
+            parser = new EquationParser();
+            parser.LoadTokens(TokenManager.GetTokens());
+            root = new Term(parser);
             root = root.AddEquation(equation);
         }
 

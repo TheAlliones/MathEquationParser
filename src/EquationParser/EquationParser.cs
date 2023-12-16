@@ -15,6 +15,15 @@ namespace EquationParser
             operations = new List<string[]>();
         }
 
+        public void LoadTokens(List<string[]> tokens)
+        {
+            operations.Clear();
+            foreach (string[] to in tokens)
+            {
+                operations.Add(to);
+            }
+        }
+
         public void AddOperations(string[] ops)
         {
             operations.Add(ops);
@@ -57,6 +66,7 @@ namespace EquationParser
             if(splitIndex == -1)
             {
                 Console.WriteLine("Error: Equation was in wrong format!");
+                return null;
             }
             return GetPartsSplittedAt(equation, splitIndex, tokenLength);
         }
@@ -64,6 +74,10 @@ namespace EquationParser
         private string[] GetPartsSplittedAt(string equation, int splitIndex, int tokenLength)
         {
             List<string> result = new List<string>();
+            if(splitIndex < 0)
+            {
+                splitIndex = 0;
+            }
             if (splitIndex != 0)
             {
                 result.Add(equation.Substring(0,splitIndex));
@@ -81,7 +95,7 @@ namespace EquationParser
         {
             char[] equationChars = equation.ToCharArray();
             int bracket = 0;
-            for (int i = equation.Length-1; i > 0; i--)
+            for (int i = equation.Length-1; i >= 0; i--)
             {
                 char c = equationChars[i];
                 if (c == ')')

@@ -2,24 +2,28 @@
 {
     public class Term : TreeElement
     {
-        string term = "";
+        private string term = "";
+        private EquationParser parser;
+
+        public Term(EquationParser p)
+        {
+            parser = p;
+        }
 
         public override TreeElement AddEquation(string equation)
         {
-            EquationParser parser = new EquationParser();
-            parser.AddOperations(new string[] { "+", "-" });
-            parser.AddOperations(new string[] { "*", "/" });
             string[] equationParts = parser.ParseEquation(equation, out bool hasOperation);
             if (hasOperation)
             {
                 term = equation;
                 return this;
             }
-            else
+            else if(equationParts != null)
             {
-                Operation operation = new Operation(equationParts);
+                Operation operation = new Operation(parser,equationParts);
                 return operation;
             }
+            return this;    
         }
 
         public override double Calculate()
@@ -30,6 +34,10 @@
             }
             else
             {
+                if(term == "")
+                {
+                    return 0;
+                }
                 Console.WriteLine("Error: Number was in wrong format! : " + term);
                 return 0;
             }
